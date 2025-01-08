@@ -18,6 +18,10 @@ public class Message implements Serializable {
     private String sendTime;
     private int mesType;
 
+    public Message(int mesType) {
+        this.mesType = mesType;
+    }
+
     public int getMesType() {
         return mesType;
     }
