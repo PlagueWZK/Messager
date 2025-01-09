@@ -9,7 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 /**
  * @author PlagueWZK
@@ -18,9 +17,10 @@ import java.net.UnknownHostException;
  */
 
 public class UserService {
-    private User user = new User();
+    private final User user = new User();
     private Socket socket;
     private String ip;
+    private int port;
 
     public boolean checkUser(String name, String password) {
         user.setUserID(name);
@@ -50,17 +50,18 @@ public class UserService {
         return flag;
     }
 
-    public boolean checkIp(String ip) {
+    public boolean checkIp(String ip, int port) {
+        setIp(ip, port);
         try {
-            socket = new Socket(InetAddress.getByName(ip),9999);
+            socket = new Socket(InetAddress.getByName(ip),port);
         } catch (IOException e) {
             System.out.println("服务器连接失败");
             try {
                 socket.close();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+            } catch (IOException | NullPointerException ignore) {
+
             }
-            socket = null;
+            System.out.println("服务器连接成功");
             return false;
         }
         return socket.isConnected();
@@ -89,12 +90,16 @@ public class UserService {
     public User getUser() {
         return user;
     }
+    private void setIp(String ip, int port) {
+        this.ip = ip;
+        this.port = port;
+    }
+
+    public int getPort() {
+        return port;
+    }
 
     public String getIp() {
         return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
     }
 }

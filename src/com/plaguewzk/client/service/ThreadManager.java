@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 
 public class ThreadManager {
-    private static HashMap<String, ConnectThread> threadMap = new HashMap<>();
+    private static final HashMap<String, ConnectThread> threadMap = new HashMap<>();
 
 
     public static void addThreadToMap(String userID, ConnectThread thread) {

@@ -13,13 +13,15 @@ import com.plaguewzk.client.utils.ScannerUtil;
 public class View {
     private boolean loop = true;
     private String key = "";
-    private UserService userService = new UserService();
+    private final UserService userService = new UserService();
 
     public void mainMenu() {
         while (loop) {
             System.out.print("输入服务器IP:");
-            userService.setIp(ScannerUtil.readString(15, ""));
-            if (userService.checkIp(userService.getIp())) {
+            String ip = ScannerUtil.readString(20, "");
+            System.out.println("输入端口");
+            int port = ScannerUtil.readInt(5);
+            if (userService.checkIp(ip,port)) {
                 System.out.println("服务器连接成功");
                 break;
             }

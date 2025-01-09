@@ -16,9 +16,9 @@ import java.net.Socket;
  */
 
 public class ConnectThread extends Thread {
-    private Socket socket;
-    private OutputStream os;
-    private InputStream is;
+    private final Socket socket;
+    private final OutputStream os;
+    private final InputStream is;
 
     public ConnectThread(Socket socket) {
         this.socket = socket;
