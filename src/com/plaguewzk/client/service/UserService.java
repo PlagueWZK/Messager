@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * @author PlagueWZK
@@ -19,13 +20,13 @@ import java.net.Socket;
 public class UserService {
     private User user = new User();
     private Socket socket;
+    private String ip;
 
     public boolean checkUser(String name, String password) {
         user.setUserID(name);
         user.setPassword(password);
         boolean flag = false;
         try {
-            socket = new Socket(InetAddress.getByName("127.0.0.1"),9999);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject(user);
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
@@ -49,6 +50,21 @@ public class UserService {
         return flag;
     }
 
+    public boolean checkIp(String ip) {
+        try {
+            socket = new Socket(InetAddress.getByName(ip),9999);
+        } catch (IOException e) {
+            System.out.println("服务器连接失败");
+            try {
+                socket.close();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            socket = null;
+            return false;
+        }
+        return socket.isConnected();
+    }
     public void requireOnlineFriend() {
         //try {
             //ObjectOutputStream oos =
@@ -74,4 +90,11 @@ public class UserService {
         return user;
     }
 
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 }

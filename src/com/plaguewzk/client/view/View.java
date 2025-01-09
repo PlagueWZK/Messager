@@ -17,6 +17,14 @@ public class View {
 
     public void mainMenu() {
         while (loop) {
+            System.out.print("输入服务器IP:");
+            userService.setIp(ScannerUtil.readString(15, ""));
+            if (userService.checkIp(userService.getIp())) {
+                System.out.println("服务器连接成功");
+                break;
+            }
+        }
+        while (loop) {
             System.out.println("-----------------通讯系统-----------------");
             System.out.println("\t\t1.登录");
             System.out.println("\t\t9.退出");
