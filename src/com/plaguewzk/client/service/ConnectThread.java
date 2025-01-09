@@ -50,6 +50,12 @@ public class ConnectThread extends Thread {
                         }
                         System.out.println("-----------------------------------------");
                     }
+                    case MessageType.MESSAGE_COMM_MES -> {
+                        System.out.println(msg.getSender() + "对你说:" + msg.getContent());
+                    }
+                    case MessageType.MESSAGE_RET_MES_FAIL -> {
+                        System.out.println(msg.getContent());
+                    }
                 }
 
             }
@@ -58,6 +64,10 @@ public class ConnectThread extends Thread {
                 break;
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
+            } catch (Exception e) {
+                System.err.println("未知异常");
+                close();
+                break;
             }
         }
     }
@@ -68,11 +78,18 @@ public class ConnectThread extends Thread {
 
     public void close() {
         try {
-            os.close();
-            is.close();
-            socket.close();
+            if (os != null) {
+                os.close();
+            }
+            if (is != null) {
+                is.close();
+            }
+            if (socket != null && !socket.isClosed()) {
+                socket.close();
+            }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("关闭资源时发生异常");
+            System.out.println(e.getMessage());
         }
     }
 

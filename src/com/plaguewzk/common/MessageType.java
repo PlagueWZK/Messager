@@ -15,4 +15,5 @@ public interface MessageType {
     int MESSAGE_CLIENT_EXIT = 5;
     int MESSAGE_TO_ALL_MES = 6;
     int MESSAGE_FILE_MES = 7;
+    int MESSAGE_RET_MES_FAIL = 8;
 }

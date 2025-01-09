@@ -1,5 +1,6 @@
 package com.plaguewzk.client.view;
 
+import com.plaguewzk.client.service.MessageService;
 import com.plaguewzk.client.service.UserService;
 import com.plaguewzk.client.utils.ScannerUtil;
 
@@ -63,7 +64,11 @@ public class View {
 
                 }
                 case "3" -> {
-
+                    System.out.print("请输入在线用户ID:");
+                    String userID = ScannerUtil.readString(10, "");
+                    System.out.print("请输入消息(<=500字符):");
+                    String message = ScannerUtil.readString(500, "");
+                    MessageService.sendMessage(message,userService.getUser().getUserID(), userID);
                 }
                 case "4" -> {
 
